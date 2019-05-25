@@ -2,7 +2,7 @@
 #### In CVPR 2019 [[pdf]](https://anilbatra2185.github.io/papers/RoadConnectivityCVPR2019.pdf)
 
 ## Overview
-<img src='./assets/images/overview.png' width="800">
+<img src='assets/images/overview.png' width="800">
 
 ## Requirements
 * [PyTorch](https://pytorch.org/) (version >= 0.3.0)
