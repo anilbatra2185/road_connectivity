@@ -1,8 +1,8 @@
-## Improved Road Connectivity by Joint Learning of Orientation and Segmentation (CVPR2019)
-#### In CVPR 2019 [[pdf]](assests/paper/RoadConnectivityCVPR2019.pdf)
+## Improved Road Connectivity by Joint Learning of Orientation and Segmentation
+#### In CVPR 2019 [[pdf]](https://anilbatra2185.github.io/papers/RoadConnectivityCVPR2019.pdf)
 
 ## Overview
-<img src='assets/images/overview.png' width="800">
+<img src='./assets/images/overview.png' width="800">
 
 ## Requirements
 * [PyTorch](https://pytorch.org/) (version >= 0.3.0)
@@ -10,7 +10,7 @@
 * [networkx](https://networkx.github.io/) (version = 1.11)
 
 
-** Work in Progress **
+**Work in Progress**
 
 ## Data Preparation
 
