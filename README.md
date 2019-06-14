@@ -8,8 +8,8 @@
 ## Installation and Usage
 #### Data Preparation
 1. Convert Tiff Images to RGB
-2. Create Gaussian road mask using Line Strings
-3. Create Orientation Mask using road mask
+2. Create Gaussian road mask
+3. Create Orientation Mask
 
 #### Requirements
 * [PyTorch](https://pytorch.org/) (version >= 0.3.0)
