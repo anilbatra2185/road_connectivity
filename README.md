@@ -19,3 +19,12 @@
 #### Training
 
 ## Citation
+If you find our work useful in your research, please cite:
+
+    @InProceedings{Batra_2019_CVPR,
+		author = {Batra, Anil and Singh, Suriya and Pang, Guan and Basu, Saikat and Jawahar, C.V. and Paluri, Manohar},
+		title = {Improved Road Connectivity by Joint Learning of Orientation and Segmentation},
+		booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+		month = {June},
+		year = {2019} 
+	}
