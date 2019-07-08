@@ -7,9 +7,24 @@
 ## *Work in Progress*
 ## Installation and Usage
 #### Data Preparation
-1. Convert Tiff Images to RGB
-2. Create Gaussian road mask
-3. Create Orientation Mask
+
+##### PreProcess Spacenet Data
+- Convert Spacenet 11-bit images to 8-bit Images, country wise.
+- Create Gaussian Road Masks, country wise.
+- Move all data to single folder.
+```
+bash prepare_spacenet.sh /spacenet3
+```
+##### Split Datasets
+```
+bash split_data.sh /spacenet3/full /data/spacenet/ .png .png
+bash split_data.sh /deepglobe/train /data/deepglobe _sat.jpg _mask.png
+```
+#### Create Crops
+```
+python create_crops.py --base_dir /data/spacenet/ --crop_size 650 --crop_overlap 215 --im_suffix .png --gt_suffix .png
+python create_crops.py --base_dir /data/deepglobe/ --crop_size 512 --crop_overlap 256 --im_suffix _sat.jpg --gt_suffix _mask.png
+```
 
 #### Requirements
 * [PyTorch](https://pytorch.org/) (version >= 0.3.0)
