@@ -4,7 +4,7 @@
 ## Overview
 <img src='https://github.com/anilbatra2185/road_connectivity/blob/master/assests/images/overview.png' width="800">
 
-## *Work in Progress*
+## *Work in Progress*M
 
 ## Requirements
 * [PyTorch](https://pytorch.org/) (version >= 0.3.0)
@@ -23,54 +23,45 @@
 spacenet3
 │   
 └───AOI_2_Vegas_Train
-│   │
 │   └───RGB-PanSharpen
-│   │
 │   └───geojson
-│   │
 │   └───summaryData
 │   
 └───AOI_3_Paris_Train
-│   │
 │   └───RGB-PanSharpen
-│   │
 │   └───geojson
-│   │
 │   └───summaryData
 |
 └───AOI_4_Shanghai_Train
 |   .
-|   .
-|
+|   
 └───AOI_5_Khartoum_Train
 |   .
-|   .
+|   
 ```
 
 ```
 bash prepare_spacenet.sh /spacenet3
 ```
 #### Split Datasets
-
+*Spacenet tree structure created by preprocessing.*
 ```
 spacenet3
-│   
+|
 └───full
-│   │
 │   └───gt
-│   │
 │   └───images
+```
 
+*Download DeepGlobe Road dataset in the following tree structure.*
+```
 deepglobe
 │   
 └───train
-│   │
 │   └───gt
-│   │
 │   └───images
-
 ```
-
+*Script to split and save in **'/data/spacenet'** and **'/data/deepglobe'**.*
 ```
 bash split_data.sh /spacenet3/full /data/spacenet/ .png .png
 bash split_data.sh /deepglobe/train /data/deepglobe _sat.jpg _mask.png
