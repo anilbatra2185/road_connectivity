@@ -92,6 +92,10 @@ data/spacenet
 python create_crops.py --base_dir /data/spacenet/ --crop_size 650 --crop_overlap 215 --im_suffix .png --gt_suffix .png
 python create_crops.py --base_dir /data/deepglobe/ --crop_size 512 --crop_overlap 256 --im_suffix _sat.jpg --gt_suffix _mask.png
 ```
+## Visualize Data
+* Road Orientation - [Notebook](https://github.com/anilbatra2185/road_connectivity/blob/master/visualize_tasks.ipynb)
+* Training Dataset - [Notebook](https://github.com/anilbatra2185/road_connectivity/blob/master/visualize_dataset.ipynb)
+
 ## Training
 
 ## Citation
