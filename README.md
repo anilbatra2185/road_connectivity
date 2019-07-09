@@ -4,7 +4,7 @@
 ## Overview
 <img src='https://github.com/anilbatra2185/road_connectivity/blob/master/assests/images/overview.png' width="800">
 
-## *Work in Progress*M
+## *Work in Progress*
 
 ## Requirements
 * [PyTorch](https://pytorch.org/) (version >= 0.3.0)
