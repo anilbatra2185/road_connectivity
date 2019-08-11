@@ -142,6 +142,6 @@ If you find our work useful in your research, please cite:
 	}
 
 ## Remaining Tasks
-- [ ] Dataset for Junction Learning
-- [ ] Dataset for Connectivity Refinement
+- [x] Dataset for Connectivity Refinement
 - [ ] Training file for Road connectivity refinement
+- [ ] Dataset for Junction Learning
