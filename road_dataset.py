@@ -116,6 +116,83 @@ class RoadDataset(data.Dataset):
 
         return vecmap_angles
 
+    def getCorruptRoad(
+        self, road_gt, height, width, artifacts_shape="linear", element_counts=8
+    ):
+        # False Negative Mask
+        FNmask = np.ones((height, width), np.float)
+        # False Positive Mask
+        FPmask = np.zeros((height, width), np.float)
+        indices = np.where(road_gt == 1)
+
+        if artifacts_shape == "square":
+            shapes = [[16, 16], [32, 32]]
+            ##### FNmask
+            if len(indices[0]) == 0:  ### no road pixel in GT
+                pass
+            else:
+                for c_ in range(element_counts):
+                    c = np.random.choice(len(shapes), 1)[
+                        0
+                    ]  ### choose random square size
+                    shape_ = shapes[c]
+                    ind = np.random.choice(len(indices[0]), 1)[
+                        0
+                    ]  ### choose a random road pixel as center for the square
+                    row = indices[0][ind]
+                    col = indices[1][ind]
+
+                    FNmask[
+                        row - shape_[0] / 2 : row + shape_[0] / 2,
+                        col - shape_[1] / 2 : col + shape_[1] / 2,
+                    ] = 0
+            #### FPmask
+            for c_ in range(element_counts):
+                c = np.random.choice(len(shapes), 2)[0]  ### choose random square size
+                shape_ = shapes[c]
+                row = np.random.choice(height - shape_[0] - 1, 1)[
+                    0
+                ]  ### choose random pixel
+                col = np.random.choice(width - shape_[1] - 1, 1)[
+                    0
+                ]  ### choose random pixel
+                FPmask[
+                    row - shape_[0] / 2 : row + shape_[0] / 2,
+                    col - shape_[1] / 2 : col + shape_[1] / 2,
+                ] = 1
+
+        elif artifacts_shape == "linear":
+            ##### FNmask
+            if len(indices[0]) == 0:  ### no road pixel in GT
+                pass
+            else:
+                for c_ in range(element_counts):
+                    c1 = np.random.choice(len(indices[0]), 1)[
+                        0
+                    ]  ### choose random 2 road pixels to draw a line
+                    c2 = np.random.choice(len(indices[0]), 1)[0]
+                    cv2.line(
+                        FNmask,
+                        (indices[1][c1], indices[0][c1]),
+                        (indices[1][c2], indices[0][c2]),
+                        0,
+                        self.angle_theta * 2,
+                    )
+            #### FPmask
+            for c_ in range(element_counts):
+                row1 = np.random.choice(height, 1)
+                col1 = np.random.choice(width, 1)
+                row2, col2 = (
+                    row1 + np.random.choice(50, 1),
+                    col1 + np.random.choice(50, 1),
+                )
+                cv2.line(FPmask, (col1, row1), (col2, row2), 1, self.angle_theta * 2)
+
+        erased_gt = (road_gt * FNmask) + FPmask
+        erased_gt[erased_gt > 0] = 1
+
+        return erased_gt
+
     def reshape(self, image):
 
         if self.normalize_type == "Std":
@@ -246,3 +323,43 @@ class DeepGlobeDataset(RoadDataset):
             vecmap_angles.append(vecmap_angle)
 
         return image, labels, vecmap_angles
+
+
+class SpacenetDatasetCorrupt(RoadDataset):
+    def __init__(self, config, seed=7, is_train=True):
+        super(SpacenetDatasetCorrupt, self).__init__(
+            config, "spacenet", seed, multi_scale_pred=False, is_train=is_train
+        )
+
+        pass
+
+    def __getitem__(self, index):
+
+        image, gt = self.getRoadData(index)
+        c, h, w = image.shape
+        gt /= 255.0
+
+        erased_gt = self.getCorruptRoad(gt, h, w)
+        erased_gt = torch.from_numpy(erased_gt)
+
+        return image, gt, erased_gt
+
+
+class DeepGlobeDatasetCorrupt(RoadDataset):
+    def __init__(self, config, seed=7, is_train=True):
+        super(DeepGlobeDatasetCorrupt, self).__init__(
+            config, "deepglobe", seed, multi_scale_pred=False, is_train=is_train
+        )
+
+        pass
+
+    def __getitem__(self, index):
+
+        image, gt = self.getRoadData(index)
+        c, h, w = image.shape
+        gt /= 255.0
+
+        erased_gt = self.getCorruptRoad(gt, h, w)
+        erased_gt = torch.from_numpy(erased_gt)
+
+        return image, gt, erased_gt
