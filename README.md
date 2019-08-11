@@ -4,8 +4,6 @@
 ## Overview
 <img src='https://github.com/anilbatra2185/road_connectivity/blob/master/assests/images/overview.png' width="800">
 
-## *Work in Progress*M
-
 ## Requirements
 * [PyTorch](https://pytorch.org/) (version >= 0.3.0)
 * [sknw](https://github.com/yxdragon/sknw)
@@ -98,6 +96,40 @@ python create_crops.py --base_dir /data/deepglobe/ --crop_size 512 --crop_overla
 
 ## Training
 
+Train Multi-Task learning framework to predict road segmentation and road orientation.
+
+__Training MTL Help__
+```
+usage: train_mtl.py [-h] --config CONFIG
+                    --model_name {LinkNet34MTL,StackHourglassNetMTL}
+                    --dataset {deepglobe,spacenet}
+                    --exp EXP
+                    [--resume RESUME] 
+                    [--model_kwargs MODEL_KWARGS]
+                    [--multi_scale_pred MULTI_SCALE_PRED]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --config CONFIG       config file path
+  --model_name 			{LinkNet34MTL,StackHourglassNetMTL}
+                        Name of Model = ['StackHourglassNetMTL',
+                        'LinkNet34MTL']
+  --exp EXP             Experiment Name/Directory
+  --resume RESUME       path to latest checkpoint (default: None)
+  --dataset 			{deepglobe,spacenet}
+                        select dataset name from ['deepglobe', 'spacenet'].
+                        (default: Spacenet)
+  --model_kwargs 		MODEL_KWARGS
+                        parameters for the model
+  --multi_scale_pred 	MULTI_SCALE_PRED
+                        perform multi-scale prediction (default: True)
+```
+
+__Sample Usage__
+
+```
+CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deepglobe --model_name "StackHourglassNetMTL" --exp dg_stak_mtl  
+```
 ## Citation
 If you find our work useful in your research, please cite:
 
@@ -108,3 +140,8 @@ If you find our work useful in your research, please cite:
 		month = {June},
 		year = {2019}
 	}
+
+## Remaining Tasks
+- [ ] Dataset for Junction Learning
+- [ ] Dataset for Connectivity Refinement
+- [ ] Training file for Road connectivity refinement
