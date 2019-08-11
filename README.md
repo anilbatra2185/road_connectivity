@@ -104,7 +104,7 @@ usage: train_mtl.py [-h] --config CONFIG
                     --model_name {LinkNet34MTL,StackHourglassNetMTL}
                     --dataset {deepglobe,spacenet}
                     --exp EXP
-                    [--resume RESUME] 
+                    [--resume RESUME]
                     [--model_kwargs MODEL_KWARGS]
                     [--multi_scale_pred MULTI_SCALE_PRED]
 
