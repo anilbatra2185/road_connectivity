@@ -96,6 +96,7 @@ python create_crops.py --base_dir /data/deepglobe/ --crop_size 512 --crop_overla
 ## Visualize Data
 * Road Orientation - [Notebook](https://github.com/anilbatra2185/road_connectivity/blob/master/visualize_tasks.ipynb)
 * Training Dataset - [Notebook](https://github.com/anilbatra2185/road_connectivity/blob/master/visualize_dataset.ipynb)
+* Linear Corruption (Connectivity Refinement) - [Notebook](https://github.com/anilbatra2185/road_connectivity/blob/master/visualize_dataset_corrupt.ipynb)
 
 ## Training
 
