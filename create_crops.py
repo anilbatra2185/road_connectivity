@@ -1,13 +1,23 @@
 #!/usr/bin/env python2
 
 """
-create_gaussian_label.py: script to convert Spacenet linestring annotation to gaussian road mask.
+create_crops.py: script to crops for training and validation.
+                It will save the crop images and mask in the format: 
+                <image_name>_<x>_<y>.<suffix>
+                where x = [0, (Image_Height - crop_size) / stride]
+                      y = [0, (Image_Width - crop_size) / stride] 
 
 It will create following directory structure:
     base_dir
-        | ---> gaussian_roads
-                    | ---> label_tif : Tiff image to raster Linestring as road skeleton image.
-                    | ---> label_png : PNG image to create gaussian road mask.
+        |   train_crops.txt   # created by script
+        |   val_crops.txt     # created by script
+        |
+        └───train_crops       # created by script
+        │   └───gt
+        │   └───images
+        └───val_crops         # created by script
+        │   └───gt
+        │   └───images
 """
 
 from __future__ import print_function
