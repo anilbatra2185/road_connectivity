@@ -2192,7 +2192,6 @@ RGB-PanSharpen_AOI_5_Khartoum_img50
 RGB-PanSharpen_AOI_5_Khartoum_img54
 RGB-PanSharpen_AOI_5_Khartoum_img55
 RGB-PanSharpen_AOI_5_Khartoum_img56
-RGB-PanSharpen_AOI_5_Khartoum_img60
 RGB-PanSharpen_AOI_5_Khartoum_img61
 RGB-PanSharpen_AOI_5_Khartoum_img62
 RGB-PanSharpen_AOI_5_Khartoum_img64
