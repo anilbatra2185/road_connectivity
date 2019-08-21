@@ -11,6 +11,7 @@
 * json
 * skimage
 * numpy
+* tqdm
 
 ## Data Preparation
 
