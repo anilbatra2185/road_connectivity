@@ -43,6 +43,7 @@ spacenet3
 ```
 
 ```
+cd preprocessing
 bash prepare_spacenet.sh /spacenet3
 ```
 #### Split Datasets
