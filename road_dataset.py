@@ -342,7 +342,7 @@ class SpacenetDatasetCorrupt(RoadDataset):
         erased_gt = self.getCorruptRoad(gt, h, w)
         erased_gt = torch.from_numpy(erased_gt)
 
-        return image, gt, erased_gt
+        return image, [gt], [erased_gt]
 
 
 class DeepGlobeDatasetCorrupt(RoadDataset):
@@ -362,4 +362,4 @@ class DeepGlobeDatasetCorrupt(RoadDataset):
         erased_gt = self.getCorruptRoad(gt, h, w)
         erased_gt = torch.from_numpy(erased_gt)
 
-        return image, gt, erased_gt
+        return image, [gt], [erased_gt]

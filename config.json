@@ -6,6 +6,7 @@
     "task2_weight": 1,
     "train_batch_size": 16,
     "val_batch_size": 4,
+    "refinement":3,
     "train_dataset": {
         "spacenet":{
             "dir": "/data/spacenet/train_crops/",
