@@ -123,7 +123,7 @@ class HourglassModuleMTL(nn.Module):
             if i == 0:
                 res.append(self._make_residual1(block, num_blocks, planes))
                 res.append(self._make_residual1(block, num_blocks, planes))
-        hg.append(nn.ModuleList(res))
+            hg.append(nn.ModuleList(res))
         return nn.ModuleList(hg)
 
     def _hour_glass_forward(self, n, x):

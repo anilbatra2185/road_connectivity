@@ -8,6 +8,7 @@ import cv2
 import numpy as np
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
 
 
 def str2bool(v):
@@ -80,7 +81,7 @@ def weights_normal_init(model, manual_seed=7):
 
 
 def performAngleMetrics(
-    train_loss_angle_file, val_loss_angle_file, hist, is_train=True, write=False
+    train_loss_angle_file, val_loss_angle_file, epoch, hist, is_train=True, write=False
 ):
 
     pixel_accuracy = np.diag(hist).sum() / hist.sum()
@@ -176,29 +177,7 @@ def fast_hist(a, b, n):
     return np.bincount(n * a[k].astype(int) + b[k], minlength=n ** 2).reshape(n, n)
 
 
-def summary(model, print_arch=False):
-    model_parameters = filter(lambda p: p.requires_grad, model.parameters())
-    params = sum([np.prod(p.size()) for p in model_parameters]) / 1000000.0
-
-    print("*" * 100)
-    if print_arch:
-        print(model)
-    if model.__class__.__name__ == "DataParallel":
-        print(
-            "Trainable parameters for Model {} : {} M".format(
-                model.module.__class__.__name__, params
-            )
-        )
-    else:
-        print(
-            "Trainable parameters for Model {} : {} M".format(
-                model.__class__.__name__, params
-            )
-        )
-    print("*" * 100)
-
-
-def save_checkpoint(epoch, loss):
+def save_checkpoint(epoch, loss, model, optimizer, best_accuracy, best_miou, config, experiment_dir):
 
     if torch.cuda.device_count() > 1:
         arch = type(model.module).__name__
@@ -209,7 +188,6 @@ def save_checkpoint(epoch, loss):
         "epoch": epoch,
         "state_dict": model.state_dict(),
         "optimizer": optimizer.state_dict(),
-        "loss": torch.typename(road_loss) + " - " + torch.typename(angle_loss),
         "pixel_accuracy": best_accuracy,
         "miou": best_miou,
         "config": config,
