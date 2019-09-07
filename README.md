@@ -133,9 +133,15 @@ optional arguments:
 
 __Sample Usage__
 
+* Training with StackModule
 ```
 CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deepglobe --model_name "StackHourglassNetMTL" --exp dg_stak_mtl  
 ```
+* Training with LinkNet34
+```
+CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deepglobe --model_name "StackHourglassNetMTL" --exp dg_stak_mtl --multi_scale_pred false
+```
+
 ## Citation
 If you find our work useful in your research, please cite:
 

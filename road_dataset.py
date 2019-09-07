@@ -204,8 +204,8 @@ class RoadDataset(data.Dataset):
             image -= self.mean_bgr
         else:
             image = (image / 255.0) * 2 - 1
-            image = image.transpose(2, 0, 1)
-
+        
+        image = image.transpose(2, 0, 1)
         return image
 
     def random_crop(self, image, gt, size):
