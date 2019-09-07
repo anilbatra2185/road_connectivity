@@ -265,7 +265,7 @@ def test(epoch):
     test_loss_vec = 0
     hist = np.zeros((config["task1_classes"], config["task1_classes"]))
     crop_size = config["val_dataset"][args.dataset]["crop_size"]
-    for i, (inputsBGR, labels, vecmap_angles) in enumerate(val_loader, 0):
+    for i, datas in enumerate(val_loader, 0):
         inputs, labels, erased_label = data
         batch_size = inputs.size(0)
 
@@ -288,7 +288,6 @@ def test(epoch):
             else:
                 loss1 = road_loss(outputs, labels[-1].long().cuda(), False)
 
-            loss1.backward()
             temp = Variable(torch.max(outputs.data, 1)[1].float(), volatile=True, requires_grad=False).unsqueeze(dim = 1)
 
         test_loss_iou += loss1.data[0]
@@ -331,7 +330,7 @@ def test(epoch):
                 labels[-1].cpu(),
                 predicted.cpu(),
                 F.softmax(outputs, dim=1).data.cpu()[:, 1, :, :],
-                predicted_angle.cpu(),
+                None,
                 os.path.join(images_path, "validate_pair_{}_{}.png".format(epoch, i)),
                 norm_type=config["val_dataset"]["normalize_type"],
             )
