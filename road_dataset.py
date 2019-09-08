@@ -331,15 +331,19 @@ class SpacenetDatasetCorrupt(RoadDataset):
             config, "spacenet", seed, multi_scale_pred=False, is_train=is_train
         )
 
-        pass
+        # preprocess
+        self.threshold = self.config["thresh"]
+        print("Threshold is set to {} for {}".format(self.threshold, self.split))
 
     def __getitem__(self, index):
 
         image, gt = self.getRoadData(index)
         c, h, w = image.shape
         gt /= 255.0
+        gt[gt < self.threshold] = 0
+        gt[gt >= self.threshold] = 1
 
-        erased_gt = self.getCorruptRoad(gt, h, w)
+        erased_gt = self.getCorruptRoad(gt.copy(), h, w)
         erased_gt = torch.from_numpy(erased_gt)
 
         return image, [gt], [erased_gt]
