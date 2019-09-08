@@ -142,6 +142,13 @@ CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deep
 CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deepglobe --model_name "LinkNet34MTL" --exp dg_L34_mtl --multi_scale_pred false
 ```
 
+## Connectivity Refinement
+
+* Training with Linear Artifacts/Corruption (using LinkNe34 Architecture)
+```
+CUDA_VISIBLE_DEVICES=0,1 python train_refine_pre.py --config config.json --dataset spacenet --model_name "LinkNet34" --exp spacenet_L34_pre_train_with_corruption --multi_scale_pred false
+```
+
 ## Citation
 If you find our work useful in your research, please cite:
 
