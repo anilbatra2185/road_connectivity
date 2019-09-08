@@ -1,5 +1,5 @@
 ## Improved Road Connectivity by Joint Learning of Orientation and Segmentation ##
-#### In CVPR 2019 [[pdf]](https://anilbatra2185.github.io/papers/RoadConnectivityCVPR2019.pdf)
+#### In CVPR 2019 [[pdf]](https://anilbatra2185.github.io/papers/RoadConnectivityCVPR2019.pdf) [[supplementary]](https://anilbatra2185.github.io/papers/RoadConnectivity_CVPR_Supplementary.pdf)
 
 ## Overview
 <img src='https://github.com/anilbatra2185/road_connectivity/blob/master/assests/images/overview.png' width="800">
@@ -139,7 +139,7 @@ CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deep
 ```
 * Training with LinkNet34
 ```
-CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deepglobe --model_name "StackHourglassNetMTL" --exp dg_L34_mtl --multi_scale_pred false
+CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deepglobe --model_name "LinkNet34MTL" --exp dg_L34_mtl --multi_scale_pred false
 ```
 
 ## Citation
