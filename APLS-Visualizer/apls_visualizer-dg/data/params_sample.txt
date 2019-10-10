@@ -1,0 +1,14 @@
+solution = ./data/solution-example.csv
+
+truth = ./data/SpaceNet_Roads_Sample/AOI_2_Vegas_Roads_Sample/summaryData/AOI_2_Vegas_Roads_Sample.csv
+truth = ./data/SpaceNet_Roads_Sample/AOI_3_Paris_Roads_Sample/summaryData/AOI_3_Paris_Roads_Sample.csv
+truth = ./data/SpaceNet_Roads_Sample/AOI_4_Shanghai_Roads_Sample/summaryData/AOI_4_Shanghai_Roads_Sample.csv
+truth = ./data/SpaceNet_Roads_Sample/AOI_5_Khartoum_Roads_Sample/summaryData/AOI_5_Khartoum_Roads_Sample.csv
+
+
+image-dir = ./data/SpaceNet_Roads_Sample/AOI_2_Vegas_Roads_Sample
+image-dir = ./data/SpaceNet_Roads_Sample/AOI_3_Paris_Roads_Sample
+image-dir = ./data/SpaceNet_Roads_Sample/AOI_4_Shanghai_Roads_Sample
+image-dir = ./data/SpaceNet_Roads_Sample/AOI_5_Khartoum_Roads_Sample
+
+band-triplets = ./data/band-triplets.txt

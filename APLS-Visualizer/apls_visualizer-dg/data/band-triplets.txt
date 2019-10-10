@@ -1,0 +1,16 @@
+# 1. Coastal:  400 - 450 nm 
+# 2. Blue:     450 - 510 nm 
+# 3. Green:    510 - 580 nm 
+# 4. Yellow:   585 - 625 nm 
+# 5. Red:      630 - 690 nm
+# 6. Red Edge: 705 - 745 nm
+# 7. Near-IR1: 770 - 895 nm
+# 8. Near-IR2: 860 - 1040 nm
+
+# Format: 3 integers in the 1..8 range, no spaces or any separators <tab> Name (spaces allowed)
+
+#753	Vegetation
+#875	Urban
+#781	Blackwater
+#777	Infra red 1
+#888	Infra red 2

@@ -1,0 +1,7 @@
+solution = ./data/solution_dg.csv
+
+truth = ./data/dg_truth_dg.csv
+image-dir = /Users/anilbatra/Downloads/DeepGlobe/valid
+w = 1500
+
+band-triplets = ./data/band-triplets.txt

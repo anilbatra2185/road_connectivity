@@ -1,0 +1,80 @@
+<h1>Visualizer for the Road Detector challenge</h1>
+
+The purpose of the visualizer application is to let you view grayscale, 3-band and 8-band images, view ground truth road networks and your solution's road networks as overlays on these images, compare truth to solution and calculate your solution's score.<br/>
+
+Open a command window in the directory where you unzipped the visualizer-1.0.zip package and execute
+<pre>
+java -jar visualizer.jar 
+     -truth &lt;truth_file_list&gt; 
+     -solution &lt;solution_file&gt; 
+     -image-dir &lt;image_directory_list&gt;
+     -band-triplets &lt;band_definition_file&gt;
+</pre>
+<i>(The above is a single line command, line breaks are only for readability.)</i><br/><br/>
+
+This assumes that you have Java (at least v1.7) installed and it is available on your path. The meaning of the above parameters are the following:
+<ul>
+	<li>-truth (optional) specifies the location of the truth files. It is a semicolon (';')-separated list of files that should be loaded.</li>
+	<li>-solution (optional) is your solution file, see ./data/solution-sample.csv for an example. </li>
+	<li>-image-dir is a semicolon (';')-separated list of directories that should be loaded. Each of these is assumed to contain the PAN, RGB-PanSharpen, etc subfolders as described in the problem statement.</li>
+	<li>-band-triplets points to a file that defines the band index triplets used to generate RGB images from the 8-band imagery. See ./data/band-triplets.txt, it describes the required syntax of band triplet definitions.</li>
+</ul>
+Note that if you use multiple path elements separated by a semicolon in the -truth or -image-dir parameters then it may be necessary to enclose the parameter value in quotes.<br/>
+All file and directory parameters can be relative or absolute paths. The -truth and -solution parameters are optional, the tool is able to run without them.<br/><br/>
+
+An alternative way of specifying the parameters is via a parameters file, see params.txt for an example. The file contains the description of the required syntax. In this case the command should have exactly two parameters:<br/>
+<pre>
+java -jar visualizer.jar -params &lt;params_file&gt;
+</pre>
+where &lt;params_file&gt; is an absolute or relative path to a parameters file.
+
+For example a command line that will run the app using the spacenet sample data:
+<pre>
+java -jar visualizer.jar -params ./data/params.txt
+</pre>
+This assumes that you have already downloaded the sample data from the spacenet-dataset AWS bucket (see the problem statement for details) and extracted it, so the directory structure is something like this:
+<pre>
+data/
+    SpaceNet_Roads_Sample/
+        AOI_2_Vegas_Roads_Sample/
+            geojson/
+            MUL/
+            ...
+        AOI_3_Paris_Roads_Sample/
+            ...
+        AOI_4_Shanghai_Roads_Sample/
+            ...
+        AOI_5_Khartoum_Roads_Sample/
+            ...
+    band-triplets.txt
+    params.txt
+    solution-example.csv
+visualizer_lib/
+    *.jar  
+visualizer.jar
+
+</pre>
+Modify the params.txt file if your paths look different.
+<br/><br/>
+
+There are some other optional command line parameters you can use (either directly in the command line or in the parameters file):
+<ul>
+	<li>-w &lt;width&gt; : Width of the tool's screen. Defaults to 1500.</li>
+	<li>-no-gui: if present then no GUI will be shown, the application just scores the supplied solution file in command line mode.</li>
+	<li>-truth-color &lt;r,g,b,a&gt; : with this you can customize the colour of the ground truth roads. The parameter should be 4 integers separated by commas, no spaces in between. E.g to set it to semi-transparent blue you can use: -truth-color 0,0,255,128</li>
+	<li>-solution-color &lt;r,g,b,a&gt; : the colour of your solution's road network.</li>
+</ul>
+All these have proper defaults so you can leave them out. <br/>
+ 
+<h3>Operations</h3>
+Usage of the tool should be straightforward. Select the view type from the top drop down list: 'RGB Pan-sharpened', 'PAN grayscale' or one of the predefined band triplet combinations (these are generated from the contents of the MUL folder). Select the image to be displayed from the bottom drop down list. You can also switch to another image by clicking the line containing an image name in the output log window.<br/>
+
+If both truth and solution files are specified then solution and truth are compared automatically, scores are displayed in the log window and also in the command line. Note that the visualizer does not enforce some of the constraints mentioned in the problem statement, like it is not necessary to give a prediction for all images in your solution file.<br/>
+
+You can zoom in/out within the image view by the mouse wheel, and pan the view by dragging.<br/>
+
+<h3>Colour scaling</h3>
+The dataset contains 16-bit grayscale and 48-bit colour images which the tool converts to 8-bit or 24-bit images so that they can be displayed. A rather simple algorithm is used for colour conversion, see the <tt>loadMap()</tt> method of the <tt>Visualizer</tt> class. Note that for machine learning you may do this step differently or may not do this step at all.
+
+<h3>Licenses</h3>
+The visualizer tool uses the imageio-ext library for reading multiband TIFF files. The imageio-ext library is LGPL licensed, see <a href="https://github.com/geosolutions-it/imageio-ext/blob/master/LICENSE.txt">here</a> for its license text. See <a href="https://github.com/geosolutions-it/imageio-ext">here</a> for details on the library.<br/>

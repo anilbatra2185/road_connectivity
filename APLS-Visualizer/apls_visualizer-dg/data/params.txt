@@ -1,0 +1,13 @@
+solution = ./data/solution-example_blank.csv
+
+truth = /ssd_scratch/cvit/anil.k/spacenet/AOI_2_Vegas_Roads_Train/summaryData/AOI_2_Vegas_Roads_Train.csv
+truth = /ssd_scratch/cvit/anil.k/spacenet/AOI_3_Paris_Roads_Train/summaryData/AOI_3_Paris_Roads_Train.csv
+truth = /ssd_scratch/cvit/anil.k/spacenet/AOI_4_Shanghai_Roads_Train/summaryData/AOI_4_Shanghai_Roads_Train.csv
+truth = /ssd_scratch/cvit/anil.k/spacenet/AOI_5_Khartoum_Roads_Train/summaryData/AOI_5_Khartoum_Roads_Train.csv
+
+image-dir = /ssd_scratch/cvit/anil.k/spacenet/AOI_2_Vegas_Roads_Train/
+image-dir = /ssd_scratch/cvit/anil.k/spacenet/AOI_3_Paris_Roads_Train/
+image-dir = /ssd_scratch/cvit/anil.k/spacenet/AOI_4_Shanghai_Roads_Train/
+image-dir = /ssd_scratch/cvit/anil.k/spacenet/AOI_5_Khartoum_Roads_Train/
+
+band-triplets = ./data/band-triplets.txt
