@@ -5,7 +5,7 @@
 <img src='https://github.com/anilbatra2185/road_connectivity/blob/master/assests/images/overview.png' width="800">
 
 ## Requirements
-* [PyTorch](https://pytorch.org/) (version >= 0.3.0)
+* [PyTorch](https://pytorch.org/) (version = 0.3.0)
 * [sknw](https://github.com/yxdragon/sknw)
 * [networkx](https://networkx.github.io/) (version = 1.11)
 * json
@@ -23,12 +23,12 @@
 *Default Spacenet3 tree structure assumed.*
 ```
 spacenet3
-│   
+│
 └───AOI_2_Vegas_Train
 │   └───RGB-PanSharpen
 │   └───geojson
 │   └───summaryData
-│   
+│
 └───AOI_3_Paris_Train
 │   └───RGB-PanSharpen
 │   └───geojson
@@ -36,10 +36,10 @@ spacenet3
 |
 └───AOI_4_Shanghai_Train
 |   .
-|   
+|
 └───AOI_5_Khartoum_Train
 |   .
-|   
+|
 ```
 
 ```
@@ -59,7 +59,7 @@ spacenet3
 *Download DeepGlobe Road dataset in the following tree structure.*
 ```
 deepglobe
-│   
+│
 └───train
 │   └───gt
 │   └───images
@@ -135,12 +135,18 @@ __Sample Usage__
 
 * Training with StackModule
 ```
-CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deepglobe --model_name "StackHourglassNetMTL" --exp dg_stak_mtl  
+CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deepglobe --model_name "StackHourglassNetMTL" --exp dg_stak_mtl
 ```
 * Training with LinkNet34
 ```
 CUDA_VISIBLE_DEVICES=0,1 python train_mtl.py --config config.json --dataset deepglobe --model_name "LinkNet34MTL" --exp dg_L34_mtl --multi_scale_pred false
 ```
+
+## Evaluate APLS
+
+* Please use Java implementation to compute APLS provided by Spacenet Challenge. - [Visualizer tool](https://drive.google.com/file/d/1rwbj_o-ELBfruPZuVkCnEQxAX2-Pz5DX/view)
+* For more info refer issue [#13](https://github.com/anilbatra2185/road_connectivity/issues/13)
+
 
 ## Connectivity Refinement
 
