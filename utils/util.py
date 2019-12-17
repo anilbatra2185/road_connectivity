@@ -49,7 +49,7 @@ def getParllelNetworkStateDict(state_dict):
     return new_state_dict
 
 
-def to_variable(tensor, volatile=False, requires_grad=False):
+def to_variable(tensor, volatile=False, requires_grad=True):
     return Variable(tensor.long().cuda(), requires_grad=requires_grad)
 
 

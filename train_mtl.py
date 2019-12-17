@@ -195,12 +195,12 @@ def train(epoch):
         outputs, pred_vecmaps = model(inputsBGR)
 
         if args.multi_scale_pred:
-            loss1 = road_loss(outputs[0], labels[0].long().cuda(), False)
+            loss1 = road_loss(outputs[0], util.to_variable(labels[0]), False)
             num_stacks = model.module.num_stacks if num_gpus > 1 else model.num_stacks
             for idx in range(num_stacks - 1):
-                loss1 += road_loss(outputs[idx + 1], labels[0].long().cuda(), False)
+                loss1 += road_loss(outputs[idx + 1], util.to_variable(labels[0]), False)
             for idx, output in enumerate(outputs[-2:]):
-                loss1 += road_loss(output, labels[idx + 1].long().cuda(), False)
+                loss1 += road_loss(output, util.to_variable(labels[idx + 1]), False)
 
             loss2 = angle_loss(pred_vecmaps[0], util.to_variable(vecmap_angles[0]))
             for idx in range(num_stacks - 1):
@@ -213,7 +213,7 @@ def train(epoch):
             outputs = outputs[-1]
             pred_vecmaps = pred_vecmaps[-1]
         else:
-            loss1 = road_loss(outputs, labels[-1].long().cuda(), False)
+            loss1 = road_loss(outputs, util.to_variable(labels[-1]), False)
             loss2 = angle_loss(pred_vecmaps, util.to_variable(vecmap_angles[-1]))
 
         train_loss_iou += loss1.data[0]
@@ -308,28 +308,28 @@ def test(epoch):
 
         outputs, pred_vecmaps = model(inputsBGR)
         if args.multi_scale_pred:
-            loss1 = road_loss(outputs[0], util.to_variable(labels[0], True), True)
+            loss1 = road_loss(outputs[0], util.to_variable(labels[0], True, False), True)
             num_stacks = model.module.num_stacks if num_gpus > 1 else model.num_stacks
             for idx in range(num_stacks - 1):
-                loss1 += road_loss(outputs[idx + 1], util.to_variable(labels[0], True), True)
+                loss1 += road_loss(outputs[idx + 1], util.to_variable(labels[0], True, False), True)
             for idx, output in enumerate(outputs[-2:]):
-                loss1 += road_loss(output, util.to_variable(labels[idx + 1], True), True)
+                loss1 += road_loss(output, util.to_variable(labels[idx + 1], True, False), True)
 
-            loss2 = angle_loss(pred_vecmaps[0], util.to_variable(vecmap_angles[0], True))
+            loss2 = angle_loss(pred_vecmaps[0], util.to_variable(vecmap_angles[0], True, False))
             for idx in range(num_stacks - 1):
                 loss2 += angle_loss(
-                    pred_vecmaps[idx + 1], util.to_variable(vecmap_angles[0], True)
+                    pred_vecmaps[idx + 1], util.to_variable(vecmap_angles[0], True, False)
                 )
             for idx, pred_vecmap in enumerate(pred_vecmaps[-2:]):
                 loss2 += angle_loss(
-                    pred_vecmap, util.to_variable(vecmap_angles[idx + 1], True)
+                    pred_vecmap, util.to_variable(vecmap_angles[idx + 1], True, False)
                 )
 
             outputs = outputs[-1]
             pred_vecmaps = pred_vecmaps[-1]
         else:
-            loss1 = road_loss(outputs, util.to_variable(labels[0], True), True)
-            loss2 = angle_loss(pred_vecmaps, util.to_variable(labels[0], True))
+            loss1 = road_loss(outputs, util.to_variable(labels[0], True, False), True)
+            loss2 = angle_loss(pred_vecmaps, util.to_variable(labels[0], True, False))
 
         test_loss_iou += loss1.data[0]
         test_loss_vec += loss2.data[0]
