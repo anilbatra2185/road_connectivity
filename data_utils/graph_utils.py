@@ -50,7 +50,8 @@ def simplify_graph(graph, max_distance=1):
             # get all pixel points i.e. (x,y) between the edge
             ps = val["pts"]
             # create a full segment
-            full_segments = np.row_stack([graph.node[s]["o"], ps, graph.node[e]["o"]])
+            full_segments = np.row_stack(
+                [graph.nodes[s]["o"], ps, graph.nodes[e]["o"]])
             # simply the graph.
             segments = rdp.rdp(full_segments.tolist(), max_distance)
             all_segments.append(segments)
