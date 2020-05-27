@@ -9,6 +9,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
+from skimage.morphology import skeletonize
 
 
 def str2bool(v):
@@ -193,7 +194,8 @@ def save_checkpoint(epoch, loss, model, optimizer, best_accuracy, best_miou, con
         "config": config,
     }
     filename = os.path.join(
-        experiment_dir, "checkpoint-epoch{:03d}-loss-{:.4f}.pth.tar".format(epoch, loss)
+        experiment_dir, "checkpoint-epoch{:03d}-loss-{:.4f}.pth.tar".format(
+            epoch, loss)
     )
     torch.save(state, filename)
     os.rename(filename, os.path.join(experiment_dir, "model_best.pth.tar"))
@@ -216,7 +218,8 @@ def savePredictedProb(
 
     for idx in range(b):
         # real_ = np.asarray(real[idx].numpy().transpose(1,2,0),dtype=np.float32)
-        real_ = np.asarray(real[idx].numpy().transpose(1, 2, 0), dtype=np.float32)
+        real_ = np.asarray(real[idx].numpy().transpose(
+            1, 2, 0), dtype=np.float32)
         if norm_type == "Mean":
             real_ = real_ + mean_bgr
         elif norm_type == "Std":
@@ -255,10 +258,50 @@ def savePredictedProb(
                 (real_, gt_, predicted_, predicted_prob_, affinity_bgr), axis=1
             )
         else:
-            pair = np.concatenate((real_, gt_, predicted_, predicted_prob_), axis=1)
+            pair = np.concatenate(
+                (real_, gt_, predicted_, predicted_prob_), axis=1)
         grid.append(pair)
 
     if pred_affinity is not None:
         cv2.imwrite(image_name, np.array(grid).reshape(b * h, 5 * w, 3))
     else:
         cv2.imwrite(image_name, np.array(grid).reshape(b * h, 4 * w, 3))
+
+
+def get_relaxed_precision(a, b, buffer):
+    tp = 0
+    indices = np.where(a == 1)
+    for ind in range(len(indices[0])):
+        tp += (np.sum(
+            b[indices[0][ind]-buffer: indices[0][ind]+buffer+1,
+              indices[1][ind]-buffer: indices[1][ind]+buffer+1]) > 0).astype(np.int)
+    return tp
+
+
+def relaxed_f1(pred, gt, buffer=3):
+    ''' Usage and Call
+    # rp_tp, rr_tp, pred_p, gt_p = relaxed_f1(predicted.cpu().numpy(), labels.cpu().numpy(), buffer = 3)
+
+    # rprecision_tp += rp_tp
+    # rrecall_tp += rr_tp
+    # pred_positive += pred_p
+    # gt_positive += gt_p
+
+    # precision = rprecision_tp/(gt_positive + 1e-12)
+    # recall = rrecall_tp/(gt_positive + 1e-12)
+    # f1measure = 2*precision*recall/(precision + recall + 1e-12)
+    # iou = precision*recall/(precision+recall-(precision*recall) + 1e-12)
+    '''
+
+    rprecision_tp, rrecall_tp, pred_positive, gt_positive = 0, 0, 0, 0
+    for b in range(pred.shape[0]):
+        pred_sk = skeletonize(pred[b])
+        gt_sk = skeletonize(gt[b])
+        # pred_sk = pred[b]
+        # gt_sk = gt[b]
+        rprecision_tp += get_relaxed_precision(pred_sk, gt_sk, buffer)
+        rrecall_tp += get_relaxed_precision(gt_sk, pred_sk, buffer)
+        pred_positive += len(np.where(pred_sk == 1)[0])
+        gt_positive += len(np.where(gt_sk == 1)[0])
+
+    return rprecision_tp, rrecall_tp, pred_positive, gt_positive
