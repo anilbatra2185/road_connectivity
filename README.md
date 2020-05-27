@@ -7,7 +7,7 @@
 ## Requirements
 * [PyTorch](https://pytorch.org/) (version = 0.3.0)
 * [sknw](https://github.com/yxdragon/sknw)
-* [networkx](https://networkx.github.io/) (version = 1.11)
+* [networkx](https://networkx.github.io/) (version = 2.4)
 * json
 * skimage
 * numpy
