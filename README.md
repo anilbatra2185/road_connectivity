@@ -4,6 +4,8 @@
 ## Overview
 <img src='https://github.com/anilbatra2185/road_connectivity/blob/master/assests/images/overview.png' width="800">
 
+## Migration to PyTorch 1.5.0 is in progress
+
 ## Requirements
 * [PyTorch](https://pytorch.org/) (version = 0.3.0)
 * [sknw](https://github.com/yxdragon/sknw)
