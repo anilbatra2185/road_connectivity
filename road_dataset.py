@@ -24,8 +24,8 @@ class RoadDataset(data.Dataset):
         # paths
         self.dir = self.config[dataset_name]["dir"]
 
-        self.img_root = os.path.join(self.dir, "images/")
-        self.gt_root = os.path.join(self.dir, "gt/")
+        self.img_root = os.path.join(self.dir, "images\\")
+        self.gt_root = os.path.join(self.dir, "gt\\")
         self.image_list = self.config[dataset_name]["file"]
 
         # list of all images
@@ -55,7 +55,7 @@ class RoadDataset(data.Dataset):
                     "img": self.img_root
                     + f
                     + self.config[dataset_name]["image_suffix"],
-                    "lbl": self.gt_root + f + self.config[dataset_name]["gt_suffix"],
+                    "lbl": self.gt_root + f.replace('_sat_', '_mask_') + self.config[dataset_name]["gt_suffix"],
                 }
             )
 
@@ -127,49 +127,50 @@ class RoadDataset(data.Dataset):
 
         if artifacts_shape == "square":
             shapes = [[16, 16], [32, 32]]
-            ##### FNmask
-            if len(indices[0]) == 0:  ### no road pixel in GT
+            # FNmask
+            if len(indices[0]) == 0:  # no road pixel in GT
                 pass
             else:
                 for c_ in range(element_counts):
                     c = np.random.choice(len(shapes), 1)[
                         0
-                    ]  ### choose random square size
+                    ]  # choose random square size
                     shape_ = shapes[c]
                     ind = np.random.choice(len(indices[0]), 1)[
                         0
-                    ]  ### choose a random road pixel as center for the square
+                    ]  # choose a random road pixel as center for the square
                     row = indices[0][ind]
                     col = indices[1][ind]
 
                     FNmask[
-                        row - shape_[0] / 2 : row + shape_[0] / 2,
-                        col - shape_[1] / 2 : col + shape_[1] / 2,
+                        row - shape_[0] / 2: row + shape_[0] / 2,
+                        col - shape_[1] / 2: col + shape_[1] / 2,
                     ] = 0
-            #### FPmask
+            # FPmask
             for c_ in range(element_counts):
-                c = np.random.choice(len(shapes), 2)[0]  ### choose random square size
+                # choose random square size
+                c = np.random.choice(len(shapes), 2)[0]
                 shape_ = shapes[c]
                 row = np.random.choice(height - shape_[0] - 1, 1)[
                     0
-                ]  ### choose random pixel
+                ]  # choose random pixel
                 col = np.random.choice(width - shape_[1] - 1, 1)[
                     0
-                ]  ### choose random pixel
+                ]  # choose random pixel
                 FPmask[
-                    row - shape_[0] / 2 : row + shape_[0] / 2,
-                    col - shape_[1] / 2 : col + shape_[1] / 2,
+                    row - shape_[0] / 2: row + shape_[0] / 2,
+                    col - shape_[1] / 2: col + shape_[1] / 2,
                 ] = 1
 
         elif artifacts_shape == "linear":
-            ##### FNmask
-            if len(indices[0]) == 0:  ### no road pixel in GT
+            # FNmask
+            if len(indices[0]) == 0:  # no road pixel in GT
                 pass
             else:
                 for c_ in range(element_counts):
                     c1 = np.random.choice(len(indices[0]), 1)[
                         0
-                    ]  ### choose random 2 road pixels to draw a line
+                    ]  # choose random 2 road pixels to draw a line
                     c2 = np.random.choice(len(indices[0]), 1)[0]
                     cv2.line(
                         FNmask,
@@ -178,7 +179,7 @@ class RoadDataset(data.Dataset):
                         0,
                         self.angle_theta * 2,
                     )
-            #### FPmask
+            # FPmask
             for c_ in range(element_counts):
                 row1 = np.random.choice(height, 1)
                 col1 = np.random.choice(width, 1)
@@ -186,7 +187,8 @@ class RoadDataset(data.Dataset):
                     row1 + np.random.choice(50, 1),
                     col1 + np.random.choice(50, 1),
                 )
-                cv2.line(FPmask, (col1, row1), (col2, row2), 1, self.angle_theta * 2)
+                cv2.line(FPmask, (col1, row1), (col2, row2),
+                         1, self.angle_theta * 2)
 
         erased_gt = (road_gt * FNmask) + FPmask
         erased_gt[erased_gt > 0] = 1
@@ -204,7 +206,7 @@ class RoadDataset(data.Dataset):
             image -= self.mean_bgr
         else:
             image = (image / 255.0) * 2 - 1
-        
+
         image = image.transpose(2, 0, 1)
         return image
 
@@ -216,8 +218,8 @@ class RoadDataset(data.Dataset):
         start_x = np.random.randint(0, w - crop_w)
         start_y = np.random.randint(0, h - crop_h)
 
-        image = image[start_x : start_x + crop_w, start_y : start_y + crop_h, :]
-        gt = gt[start_x : start_x + crop_w, start_y : start_y + crop_h]
+        image = image[start_x: start_x + crop_w, start_y: start_y + crop_h, :]
+        gt = gt[start_x: start_x + crop_w, start_y: start_y + crop_h]
 
         return image, gt
 
@@ -250,7 +252,8 @@ class SpacenetDataset(RoadDataset):
             if val != 1:
                 gt_ = cv2.resize(
                     gt,
-                    (int(math.ceil(h / (val * 1.0))), int(math.ceil(w / (val * 1.0)))),
+                    (int(math.ceil(h / (val * 1.0))),
+                     int(math.ceil(w / (val * 1.0)))),
                     interpolation=cv2.INTER_NEAREST,
                 )
             else:
@@ -301,7 +304,8 @@ class DeepGlobeDataset(RoadDataset):
             if val != 1:
                 gt_ = cv2.resize(
                     gt,
-                    (int(math.ceil(h / (val * 1.0))), int(math.ceil(w / (val * 1.0)))),
+                    (int(math.ceil(h / (val * 1.0))),
+                     int(math.ceil(w / (val * 1.0)))),
                     interpolation=cv2.INTER_NEAREST,
                 )
             else:

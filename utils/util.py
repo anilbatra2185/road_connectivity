@@ -51,7 +51,7 @@ def getParllelNetworkStateDict(state_dict):
 
 
 def to_variable(tensor, volatile=False, requires_grad=True):
-    return Variable(tensor.long().cuda(), requires_grad=requires_grad)
+    return Variable(tensor.long().cuda())
 
 
 def weights_init(model, manual_seed=7):
@@ -198,7 +198,11 @@ def save_checkpoint(epoch, loss, model, optimizer, best_accuracy, best_miou, con
             epoch, loss)
     )
     torch.save(state, filename)
-    os.rename(filename, os.path.join(experiment_dir, "model_best.pth.tar"))
+    try:
+        os.rename(filename, os.path.join(experiment_dir, "model_best.pth.tar"))
+    except WindowsError:
+        os.remove(os.path.join(experiment_dir, "model_best.pth.tar"))
+        os.rename(filename, os.path.join(experiment_dir, "model_best.pth.tar"))
     print("Saving current best: {} ...".format("model_best.pth.tar"))
 
 

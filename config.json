@@ -16,8 +16,8 @@
             "crop_size": 256
         },
         "deepglobe":{
-            "dir": "/data/deepglobe/train_crops/",
-            "file": "/data/deepglobe/train_crops.txt",
+            "dir": "C:\\Users\\Anil\\Documents\\road_connectivity_try\\data\\deepglobe\\train_crops",
+            "file": "C:\\Users\\Anil\\Documents\\road_connectivity_try\\data\\deepglobe\\train_crops.txt",
             "image_suffix": ".jpg",
             "gt_suffix": ".png",
             "crop_size": 256
@@ -40,8 +40,8 @@
             "crop_size": 650
         },
         "deepglobe":{
-            "dir": "/data/deepglobe/val_crops/",
-            "file": "/data/deepglobe/val_crops.txt",
+            "dir": "C:\\Users\\Anil\\Documents\\road_connectivity_try\\data\\deepglobe\\val_crops\\",
+            "file": "C:\\Users\\Anil\\Documents\\road_connectivity_try\\data\\deepglobe\\val_crops.txt",
             "image_suffix": ".jpg",
             "gt_suffix": ".png",
             "crop_size": 512
@@ -63,7 +63,7 @@
     },
     "trainer": {
         "total_epochs": 120,
-        "save_dir": "/ssd_scratch/cvit/anil.k/exp/deepglobe100/",
+        "save_dir": "C:\\Users\\Anil\\Documents\\deepglobe100_exp\\",
         "iter_size": 1,
         "test_freq": 1
     }
